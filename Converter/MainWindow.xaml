@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Converter"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Converter" Height="450" Width="800" FontSize="16">
     <Grid>
-
+        <TabControl>
+            <TabItem Header="Number converter">
+                <StackPanel Margin="100 0">
+                    <Label Content="Convert" Margin="5 5"/>
+                    <Label Content="From: " Margin="5 0"/>
+                    <TextBox Margin="5 5"/>
+                    <ComboBox Margin="5 0"/>
+                    <Label Content="To: " Margin="5 5"/>
+                    <ComboBox Margin="5 0"/>
+                    <Button Content="Convert" Margin="5 5" HorizontalAlignment="Center" Padding="20 0"/>
+                    <Label Content="Result..." Margin="5 0"/>
+                    <Button Content="Copy result" Margin="5 5" HorizontalAlignment="Center" Padding="20 0"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Unit converter">
+                
+            </TabItem>
+            <TabItem Header="Currency converter">
+               
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
