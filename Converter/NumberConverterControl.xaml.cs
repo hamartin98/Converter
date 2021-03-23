@@ -43,7 +43,7 @@ namespace Converter
 
             if (number != "" && NumberConverter.IsNumberValidInBase(number, fromBase))
             {
-                if (toBaseStr == "Roman")
+                if (toBaseStr == "Roman number")
                 {
                     result = NumberConverter.ConvertToRomanNumber(number, fromBase);
                 }

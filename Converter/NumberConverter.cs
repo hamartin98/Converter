@@ -48,13 +48,6 @@ namespace Converter
             return FormatString(result);
         }
 
-        // Converts the given number to Roman number
-        public static string ConvertToRomanNumber(string number, int fromBase)
-        {
-            // needs to be implemented
-            return "";
-        }
-
         // Removes unnecessary spaces from the string
         // Invert and convert the characters in the string to uppper case
         // Returns the formatted string
@@ -75,18 +68,85 @@ namespace Converter
         // Returns true if its correct
         public static bool IsNumberValidInBase(string number, int baseOf)
         {
-            string validChars = hexLookup.Substring(0, baseOf);
+            string validChars = hexLookup.Substring(0, baseOf); // list of valid characters in the given base
 
             foreach (char ch in number)
             {
                 if (!validChars.Contains(ch))
                 {
-                    MessageBox.Show("Number is invalid in the given base");
                     return false;
                 }
             }
 
             return true;
+        }
+        
+        // Converts the given number to Roman number
+        public static string ConvertToRomanNumber(string value, int fromBase)
+        {
+            // Characters needed to represent numbers in the given range
+            // > 1000   M         [6]
+            // > 100    CDM [4][5][6]
+            // > 10     XLC [2][3][4]
+            // > 1      IVX [0][1][2]
+
+            // eg.: 1223 = [6][4][4][2][2][0][0][0] (indexes in the roman numbers lookup table)
+            /*
+             * 1223 / 1000 = 1 -> M, rem = 223
+             * 223 / 100 = 2 -> CC, rem 23
+             * 23 / 10 = 2 -> XX, rem 3
+             * 3 / 1 = 3 -> III
+             * result = MCCXXIII
+            */
+
+            string result = "";
+            int charIdx = 6; // index to track position in roman lookup table
+
+            int number = ConvertToBase10(value, fromBase); // Convert the input to base 10 number
+
+            if (number > 0 && number < 4000) // Roman numbers can only be between 0 and 4000
+            {
+                for (int divider = 1000; divider >= 1; divider /= 10) // Dividers: 1000, 100, 10, 1
+                {
+                    if (number >= divider)
+                    {
+                        int current = number / divider;
+                        if (current < 4) // 1, 2, 3
+                        {
+                            for (int j = current; j > 0; j--)
+                            {
+                                result += romanLookup[charIdx]; // e.g. II
+                            }
+                        }
+                        else if (current > 4 && current < 9) // 5, 6, 7, 8
+                        {
+                            result += romanLookup[1 + charIdx]; // e.g. V
+                            for (int j = 0; j < current - 5; j++)
+                            {
+                                result += romanLookup[charIdx]; // e.g. VII
+                            }
+                        }
+                        else if (current == 4) // 4
+                        {
+                            result = result + romanLookup[charIdx] + romanLookup[1 + charIdx]; // e.g. IV
+                        }
+                        else if (current == 9) // 9
+                        {
+                            result = result + romanLookup[charIdx] + romanLookup[2 + charIdx]; // e.g. IX
+                        }
+
+                    }
+
+                    charIdx -= 2; // step in the romanLookup table
+                    number %= divider; // we use the remainder next time
+                }
+            }
+            else
+            {
+                result = "Invalid number!";
+            }
+
+            return result;
         }
     }
 }
