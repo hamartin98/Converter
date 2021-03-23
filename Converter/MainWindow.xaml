@@ -12,6 +12,7 @@
                 <local:NumberConverterControl/>
             </TabItem>
             <TabItem Header="Unit converter">
+                <local:UnitConverterControl/>
             </TabItem>
             <TabItem Header="Currency converter">
                

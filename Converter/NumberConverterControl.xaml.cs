@@ -75,6 +75,7 @@ namespace Converter
             cbToBase.ItemsSource = toBaseList;
         }
 
+        // Only numeric input is allowed
         private void tbNumber_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
