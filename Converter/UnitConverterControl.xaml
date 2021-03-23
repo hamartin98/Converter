@@ -9,6 +9,9 @@
     <Grid>
         <StackPanel Margin="100 0">
             <Label Content="Convert between units" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="20" Margin="5 5"/>
+            <StackPanel x:Name="radioPanel">
+                
+            </StackPanel>
             <Label Content="From: " Margin="5 0"/>
             <TextBox Margin="5 5" x:Name="tbNumber" PreviewTextInput="tbNumber_PreviewTextInput"/>
             <ComboBox Margin="5 0" x:Name="cbUnitFrom" SelectedIndex="0"/>
