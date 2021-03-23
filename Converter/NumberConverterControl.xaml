@@ -10,7 +10,7 @@
         <StackPanel Margin="100 0">
             <Label Content="Convert the given number to another base" FontWeight="Bold" HorizontalContentAlignment="Center" FontSize="20" Margin="5 5"/>
             <Label Content="From base: " Margin="5 0"/>
-            <TextBox Margin="5 5" x:Name="tbNumber"/>
+            <TextBox Margin="5 5" x:Name="tbNumber" PreviewTextInput="tbNumber_PreviewTextInput"/>
             <ComboBox Margin="5 0" x:Name="cbFromBase" SelectedIndex="0"/>
             <Label Content="To base: " Margin="5 5"/>
             <ComboBox Margin="5 0" Name="cbToBase" SelectedIndex="0"/>

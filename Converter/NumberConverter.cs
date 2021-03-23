@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 
 namespace Converter
 {
@@ -17,15 +16,22 @@ namespace Converter
 
         // Convert and return the given number in base 10
         // The number must be in Big-endian format
-        private static int ConvertToBase10(string number, int fromBase)
+        private static long ConvertToBase10(string number, int fromBase)
         {
-            int result = 0;
+            long result = 0;
             int currValue = 0;
 
             for (int idx = 0; idx < number.Length; idx++)
             {
                 currValue = CharToValue(number[idx]); // get the integer value of the current character
-                result += Convert.ToInt32(currValue * Math.Pow(fromBase, idx)); // Add the current subresult to the result
+                try
+                {
+                    result += Convert.ToInt64(currValue * Math.Pow(fromBase, idx)); // Add the current subresult to the result
+                }
+                catch(OverflowException ex)
+                {
+                    return -1;
+                }
             }
 
             return result;
@@ -36,11 +42,19 @@ namespace Converter
         public static string ConvertNumber(string number, int fromBase, int toBase)
         {
             string result = "";
-            int base10Num = ConvertToBase10(number, fromBase);
+            long base10Num = ConvertToBase10(number, fromBase);
 
             do
             {
-                result += hexLookup[base10Num % toBase];
+                try
+                {
+                    result += hexLookup[(int)base10Num % toBase];
+                }
+                catch(IndexOutOfRangeException ex)
+                {
+                    return ex.Message;
+                }
+
                 base10Num /= toBase;
             }
             while (base10Num > 0);
@@ -102,18 +116,18 @@ namespace Converter
             string result = "";
             int charIdx = 6; // index to track position in roman lookup table
 
-            int number = ConvertToBase10(value, fromBase); // Convert the input to base 10 number
+            long number = ConvertToBase10(value, fromBase); // Convert the input to base 10 number
 
             if (number > 0 && number < 4000) // Roman numbers can only be between 0 and 4000
             {
                 for (int divider = 1000; divider >= 1; divider /= 10) // Dividers: 1000, 100, 10, 1
                 {
-                    if (number >= divider)
+                    if ((int)number >= divider)
                     {
-                        int current = number / divider;
+                        int current = (int)number / divider;
                         if (current < 4) // 1, 2, 3
                         {
-                            for (int j = current; j > 0; j--)
+                            for (int times = current; times > 0; times--)
                             {
                                 result += romanLookup[charIdx]; // e.g. II
                             }
@@ -121,7 +135,7 @@ namespace Converter
                         else if (current > 4 && current < 9) // 5, 6, 7, 8
                         {
                             result += romanLookup[1 + charIdx]; // e.g. V
-                            for (int j = 0; j < current - 5; j++)
+                            for (int times = 0; times < current - 5; times++)
                             {
                                 result += romanLookup[charIdx]; // e.g. VII
                             }

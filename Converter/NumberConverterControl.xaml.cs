@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -72,6 +73,12 @@ namespace Converter
             cbFromBase.ItemsSource = fromBaseList;
             toBaseList.Add("Roman number");
             cbToBase.ItemsSource = toBaseList;
+        }
+
+        private void tbNumber_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
